@@ -176,7 +176,9 @@ class _WomensWearState extends State<WomensWear> {
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
-    arrGridItem.add(getGridView(arrProductLists, width, height));
+    if (arrProductLists.length != 0) {
+      arrGridItem.add(getGridView(arrProductLists, width, height));
+    }
     var arrSelectedBrands = widget.objCondition["arrBrands"] != null
             ? widget.objCondition["arrBrands"]
             : [],
@@ -220,50 +222,46 @@ class _WomensWearState extends State<WomensWear> {
           height: 1.0,
         ),
         (progress)
-            ? Center(
+            ? Container(
                 child: SpinKitFoldingCube(
                   color: Theme.of(context).primaryColor,
                   size: 35.0,
                 ),
               )
             : (arrProductLists.length != 0
-                ? Center(
-                    child: Stack(
-                        children: arrGridItem.length != 0
-                            ? arrGridItem
-                            : [Container()]))
-                : Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        Icon(
-                          FontAwesomeIcons.shoppingBasket,
-                          color: Colors.grey,
-                          size: 60.0,
+                ? Column(
+                    children:
+                        arrGridItem.length != 0 ? arrGridItem : [Container()])
+                : Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      Icon(
+                        FontAwesomeIcons.shoppingBasket,
+                        color: Colors.grey,
+                        size: 60.0,
+                      ),
+                      SizedBox(
+                        height: 10.0,
+                      ),
+                      Text(
+                        'No Products Founds',
+                        style: TextStyle(color: Colors.grey),
+                      ),
+                      SizedBox(
+                        height: 10.0,
+                      ),
+                      FlatButton(
+                        child: Text(
+                          'Go Back',
+                          style: TextStyle(color: Colors.white),
                         ),
-                        SizedBox(
-                          height: 10.0,
-                        ),
-                        Text(
-                          'No Products Founds',
-                          style: TextStyle(color: Colors.grey),
-                        ),
-                        SizedBox(
-                          height: 10.0,
-                        ),
-                        FlatButton(
-                          child: Text(
-                            'Go Back',
-                            style: TextStyle(color: Colors.white),
-                          ),
-                          color: Theme.of(context).primaryColor,
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                        )
-                      ],
-                    ),
+                        color: Theme.of(context).primaryColor,
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                      )
+                    ],
                   )),
         arrProductLists.length != 0
             ? ((progress)
@@ -273,32 +271,17 @@ class _WomensWearState extends State<WomensWear> {
                       size: 25.0,
                     ),
                   )
-                : InkWell(
-                    child: Center(
-                        child: Container(
-                      margin: EdgeInsets.all(5.0),
-                      padding: EdgeInsets.all(8.0),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(5.0),
-                        boxShadow: [
-                          BoxShadow(
-                            blurRadius: 5.0,
-                            color: Colors.grey,
-                          ),
-                        ],
-                      ),
-                      child: Text(
-                        (intTotalCount >= ((intPageNo + 1) * intLimit))
-                            ? 'Load More'
-                            : 'No More Item',
-                        style: TextStyle(color: Colors.blue, fontSize: 15.0),
-                      ),
-                      alignment: Alignment.center,
-                    )),
-                    onTap: () async {
+                : FlatButton(
+                    child: Text(
+                      (intTotalCount >= ((intPageNo + 1) * intLimit))
+                          ? 'Load More'
+                          : 'No More Item',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    color: Theme.of(context).primaryColor,
+                    onPressed: () {
                       if (intTotalCount >= ((intPageNo + 1) * intLimit)) {
-                        progress = true;
+                        progress = false;
                         intPageNo = (intPageNo + 1);
                         this.getProductList(widget.objCondition);
                       } else {}

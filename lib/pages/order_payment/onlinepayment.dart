@@ -36,7 +36,7 @@ class _OnlinePaymentState extends State<OnlinePayment> {
         body: jsonEncode(<String, dynamic>{...widget.objCreatePayment}));
     objResponse = await json.decode(response.body);
     print(objResponse);
-    orderId = objResponse["orderId"];
+    orderId = objResponse["order_Id"];
     setState(() {});
   }
 
@@ -192,4 +192,3 @@ class _OnlinePaymentState extends State<OnlinePayment> {
 }
 
 //for accepting only json response
-

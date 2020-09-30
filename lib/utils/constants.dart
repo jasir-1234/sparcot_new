@@ -1,4 +1,4 @@
-final baseUrl = 'http://15.206.134.157:';
+final baseUrl = 'http://13.232.92.191:';
 
 final strProductDetailsEndPoint = '/product/get_product_details';
 final strProductListEndPoint = '/product/get_product';
